@@ -32,6 +32,12 @@ class User
     #[ORM\OneToMany(mappedBy: 'commercial', targetEntity: ExpenseNote::class)]
     private Collection $expenseNotes;
 
+    #[ORM\Column(length: 255)]
+    private ?string $username = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
+
     public function __construct()
     {
         $this->expenseNotes = new ArrayCollection();
@@ -116,6 +122,30 @@ class User
                 $expenseNote->setCommercial(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }

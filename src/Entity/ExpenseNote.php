@@ -5,10 +5,16 @@ namespace App\Entity;
 use App\Repository\ExpenseNoteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 
 #[ORM\Entity(repositoryClass: ExpenseNoteRepository::class)]
 class ExpenseNote
 {
+    const TYPE_FUEL = 'fuel';
+    const TYPE_TOLL = 'toll';
+    const TYPE_MEAL = 'meal';
+    const TYPE_CONFERENCE = 'conference';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -47,6 +53,17 @@ class ExpenseNote
     public function setNoteDate(\DateTimeInterface $noteDate): self
     {
         $this->noteDate = $noteDate;
+
+        return $this;
+    }
+
+    public function setNoteType(string $noteType): self
+    {
+        if (!in_array($noteType, [self::TYPE_FUEL, self::TYPE_TOLL, self::TYPE_MEAL, self::TYPE_CONFERENCE])) {
+            throw new InvalidArgumentException("Invalid type");
+        }
+
+        $this->noteType = $noteType;
 
         return $this;
     }
