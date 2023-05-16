@@ -67,6 +67,41 @@ class ExpenseNoteControllerTest extends WebTestCase{
         $this->assertJson($client->getResponse()->getContent());
     }
 
+    public function testUpdateExpenseNote()
+    {
+        $client = static::createClient();
+        
+        $data = [
+            'noteDate' => (new DateTime())->format('Y-m-d'), 
+            'noteType' => ExpenseNote::TYPE_FUEL,
+            'amount' => 99.99,
+            'company' => 1,
+            'commercial' => 1,
+        ];
+
+        $client->request(
+            'PUT',
+            '/api/expense_note/1',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($data)
+        );
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseHeaderSame('Content-Type', 'application/json');
+        $this->assertJson($client->getResponse()->getContent());
+    }
+
+    public function testDeleteExpenseNote()
+    {
+        $client = static::createClient();
+        
+        $client->request('DELETE', '/api/expense_note/1');
+
+        $this->assertEquals(204, $client->getResponse()->getStatusCode());
+    }
+
 
     
 }

@@ -86,4 +86,70 @@ class ExpenseNoteController extends AbstractController
 
         return $this->json($expenseNote);
     }
+
+    #[Route('/api/expense_note/{id}', name: 'expense_note_update', methods: ['PUT'])]
+    public function updateExpenseNote(
+        Request $request,
+        ManagerRegistry $doctrine,
+        ExpenseNoteRepository $expenseNoteRepository,
+        CompanyRepository $companyRepository,
+        UserRepository $userRepository,
+        int $id
+    ): Response {
+        $expenseNote = $expenseNoteRepository->find($id);
+
+        if (!$expenseNote) {
+            return new Response('Expense Note not found', Response::HTTP_NOT_FOUND);
+        }
+
+        $data = json_decode($request->getContent(), true);
+
+        if (!isset($data['noteDate'], $data['noteType'], $data['amount'])) {
+            return new Response('Missing required data', Response::HTTP_BAD_REQUEST);
+        }
+
+        // Fetch the actual entities from the database
+        $company = $companyRepository->find($data['company']);
+        $commercial = $userRepository->find(intval($data['commercial']));
+
+        if (!$company) {
+            return new Response('Company not found', Response::HTTP_BAD_REQUEST);
+        }
+
+        if (!$commercial) {
+            return new Response('User not found', Response::HTTP_BAD_REQUEST);
+        }
+
+
+        $expenseNote->setNoteDate(DateTime::createFromFormat('Y-m-d', $data['noteDate']));
+        $expenseNote->setNoteType($data['noteType']);
+        $expenseNote->setAmount($data['amount']);
+        $expenseNote->setCompany($company);
+        $expenseNote->setCommercial($commercial);
+
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($expenseNote);
+        $entityManager->flush();
+
+        return new Response('Expense Note updated', Response::HTTP_OK);
+    }
+
+    #[Route('/api/expense_note/{id}', name: 'expense_note_delete', methods: ['DELETE'])]
+    public function deleteExpenseNote(
+        ManagerRegistry $doctrine,
+        ExpenseNoteRepository $expenseNoteRepository,
+        int $id
+    ): Response {
+        $expenseNote = $expenseNoteRepository->find($id);
+
+        if (!$expenseNote) {
+            return new Response('Expense Note not found', Response::HTTP_NOT_FOUND);
+        }
+
+        $entityManager = $doctrine->getManager();
+        $entityManager->remove($expenseNote);
+        $entityManager->flush();
+
+        return new Response('Expense Note deleted', Response::HTTP_OK);
+    }
 }
