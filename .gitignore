@@ -8,3 +8,11 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+.env.test
+.phpunit.cache/
+phpunit.xml.dist.bak
