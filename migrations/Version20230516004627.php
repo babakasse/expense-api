@@ -30,6 +30,7 @@ final class Version20230516004627 extends AbstractMigration
         $this->addSql('CREATE TABLE "user" (id INT NOT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, date_of_birth DATE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('ALTER TABLE expense_note ADD CONSTRAINT FK_7B1AB476979B1AD6 FOREIGN KEY (company_id) REFERENCES company (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE expense_note ADD CONSTRAINT FK_7B1AB4767854071C FOREIGN KEY (commercial_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+
     }
 
     public function down(Schema $schema): void

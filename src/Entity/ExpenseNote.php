@@ -6,9 +6,12 @@ use App\Repository\ExpenseNoteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
+use Symfony\Component\Serializer\Annotation\Groups;
+use JsonSerializable;
+
 
 #[ORM\Entity(repositoryClass: ExpenseNoteRepository::class)]
-class ExpenseNote
+class ExpenseNote  implements JsonSerializable
 {
     const TYPE_FUEL = 'fuel';
     const TYPE_TOLL = 'toll';
@@ -40,6 +43,11 @@ class ExpenseNote
     #[ORM\JoinColumn(nullable: false)]
     private ?User $commercial = null;
 
+    public function __construct()
+    {
+        $this->registrationDate = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -66,6 +74,11 @@ class ExpenseNote
         $this->noteType = $noteType;
 
         return $this;
+    }
+
+    public function getNoteType(): ?string
+    {
+        return $this->noteType;
     }
 
     public function getAmount(): ?float
@@ -114,5 +127,18 @@ class ExpenseNote
         $this->commercial = $commercial;
 
         return $this;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->getId(),
+            'noteDate' => $this->getNoteDate(),
+            'noteType' => $this->getNoteType(),
+            'amount' => $this->getAmount(),
+            'registrationDate' => $this->getRegistrationDate(),
+            'company' => $this->getCompany(),
+            'commercial' => $this->getCommercial(),
+        ];
     }
 }

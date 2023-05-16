@@ -51,6 +51,11 @@ RUN set -eux; \
 		intl \
 		opcache \
 		zip \
+		pdo_mysql \
+        bcmath \
+        gd \
+        mbstring \
+        xml \
     ;
 
 ###> recipes ###
@@ -88,6 +93,9 @@ COPY --from=composer --link /composer /usr/bin/composer
 
 # prevent the reinstallation of vendors at every changes in the source code
 COPY --link composer.* symfony.* ./
+RUN if [ "$APP_ENV" = "dev" ]; then \
+    composer require --dev phpunit/phpunit; \
+fi
 RUN set -eux; \
     if [ -f composer.json ]; then \
 		composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress; \

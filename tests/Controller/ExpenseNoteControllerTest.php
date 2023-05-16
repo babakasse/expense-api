@@ -1,66 +1,70 @@
 <?php
 namespace APP\tests;
 
+use App\Entity\Company;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use DateTime;
+use App\Entity\ExpenseNote;
+use App\Entity\User;
 
-class UserControllerTest extends WebTestCase{
+class ExpenseNoteControllerTest extends WebTestCase{
     
-    public function testApiUser()
+    public function testApiExpenseNote()
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/app_user');
+        $client->request('GET', '/api/app_expense_note');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertJson($client->getResponse()->getContent());
     }
 
-    public function testListUsers()
+    public function testListExpenseNotes()
     {
         $client = static::createClient();
         
-        $client->request('GET', '/api/users');
+        $client->request('GET', '/api/expense_notes');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseHeaderSame('Content-Type', 'application/json');
         $this->assertJson($client->getResponse()->getContent());
     }
 
-    public function testCreateUser()
+    public function testCreateExpenseNote()
     {
         $client = static::createClient();
+       
         $data = [
-            'username' => 'johndoe',
-            'password' => 'johndopassword',
-            'email' => 'johndoe@test.fr',
-            'firstname' => 'John',
-            'lastname' => 'Doe',
-            'dateOfBirth' => (new DateTime())->format('Y-m-d'),
+            'noteDate' => (new DateTime())->format('Y-m-d'), 
+            'noteType' => ExpenseNote::TYPE_FUEL,
+            'amount' => 99.99,
+            'company' => 1,
+            'commercial' => 1,
         ];
 
         $client->request(
             'POST',
-            '/api/user',
+            '/api/expense_note',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
             json_encode($data)
         );
-
+ 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertResponseHeaderSame('Content-Type', 'application/json');
         $this->assertJson($client->getResponse()->getContent());
     }
 
-    public function testShowUser()
+    public function testShowExpenseNote()
     {
         $client = static::createClient();
         
-        $client->request('GET', '/api/user/1');
+        $client->request('GET', '/api/expense_note/1');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseHeaderSame('Content-Type', 'application/json');
         $this->assertJson($client->getResponse()->getContent());
-        var_dump($client->getResponse()->getContent());exit('HIT here');
     }
 
 

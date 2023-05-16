@@ -6,9 +6,10 @@ use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
-class Company
+class Company implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -71,5 +72,13 @@ class Company
         }
 
         return $this;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+        ];
     }
 }

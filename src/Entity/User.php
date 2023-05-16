@@ -7,10 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -149,4 +150,18 @@ class User
 
         return $this;
     }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->getId(),
+            'username' => $this->getUsername(),
+            'email' => $this->getEmail(),
+            'firstname' => $this->getFirstname(),
+            'lastname' => $this->getLastname(),
+            'dateofbirth' => $this->getDateOfBirth(),
+            'password' => $this->getPassword(),
+        ];
+    }
+
 }
