@@ -95,7 +95,7 @@ COPY --from=composer --link /composer /usr/bin/composer
 COPY --link composer.* symfony.* ./
 RUN if [ "$APP_ENV" = "dev" ]; then \
     composer require --dev phpunit/phpunit; \
-fi
+	fi
 RUN set -eux; \
     if [ -f composer.json ]; then \
 		composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress; \

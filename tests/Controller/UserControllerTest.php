@@ -60,9 +60,5 @@ class UserControllerTest extends WebTestCase{
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertJson($client->getResponse()->getContent());
-        var_dump($client->getResponse()->getContent());exit('HIT here');
     }
-
-
-    
 }

@@ -72,4 +72,18 @@ class ExpenseNoteController extends AbstractController
 
         return new Response('Expense Note created', Response::HTTP_CREATED);
     }
+
+    #[Route('/api/expense_note/{id}', name: 'expense_note_show', methods: ['GET'])]
+    public function showExpenseNote(
+        ExpenseNoteRepository $expenseNoteRepository,
+        int $id
+    ): JsonResponse {
+        $expenseNote = $expenseNoteRepository->find($id);
+
+        if (!$expenseNote) {
+            return new JsonResponse('Expense Note not found', Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->json($expenseNote);
+    }
 }
