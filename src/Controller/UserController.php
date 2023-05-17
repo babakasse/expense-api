@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
 class UserController extends AbstractController
@@ -68,5 +69,36 @@ class UserController extends AbstractController
 
         return $this->json($user);
     }
+
+    #[Route("/api/login_check", name: "login", methods: ["POST"])]
+    public function login(Request $request, ManagerRegistry $doctrine): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $username = $data['username'];
+        $password = $data['password'];
+
+        $user = $doctrine->getRepository(User::class)->findOneBy(['username' => $username]);
+
+        if (!$user || !password_verify($password, $user->getPassword())) {
+            return new JsonResponse(['error' => 'Invalid credentials'], 401);
+        }
+
+        $jwtManager = $this->container->get('lexik_jwt_authentication.jwt_manager');
+        $token = $jwtManager->create($user);
+
+        return new JsonResponse(['token' => $token]);
+    }
+
+    #[Route('/api/logout', name: 'logout', methods: ['POST'])]
+    public function logout(TokenStorageInterface $tokenStorage): Response
+    {
+        $tokenStorage->setToken(null);
+    
+        return new Response('Logged out successfully');
+    }
+
+    
+
 
 }

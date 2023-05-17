@@ -23,3 +23,9 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     Doctrine\ORM\EntityManagerInterface: '@doctrine.orm.entity_manager'
+
+    App\EventListener\JWTAuthenticatedListener:
+        arguments:
+            - '@App\Repository\UserRepository'
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_decoded, method: onJWTDecoded }

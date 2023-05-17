@@ -8,10 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User implements JsonSerializable
+class User implements UserInterface, JsonSerializable, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -151,6 +153,25 @@ class User implements JsonSerializable
         return $this;
     }
 
+    public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function eraseCredentials(): void
+    {
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getUsername();
+    }
+
     public function jsonSerialize(): mixed
     {
         return [
@@ -159,7 +180,7 @@ class User implements JsonSerializable
             'email' => $this->getEmail(),
             'firstname' => $this->getFirstname(),
             'lastname' => $this->getLastname(),
-            'dateofbirth' => $this->getDateOfBirth(),
+            'dateOfBirth' => $this->getDateOfBirth(),
             'password' => $this->getPassword(),
         ];
     }

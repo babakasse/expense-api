@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.9",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.15",
+        "lexik/jwt-authentication-bundle": "^2.19",
         "symfony/console": "6.2.*",
         "symfony/dotenv": "6.2.*",
         "symfony/flex": "^2",
@@ -70,6 +71,7 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpunit/phpunit": "^10.1",
         "symfony/browser-kit": "6.2.*",
         "symfony/maker-bundle": "^1.48"

@@ -1,0 +1,50 @@
+security:
+    password_hashers:
+        App\Entity\User: 'auto' # Utiliser l'entité User pour l'authentification
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        login:
+            pattern:  ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api:
+            pattern:   ^/api
+            stateless: true
+            jwt: ~
+
+        logout:
+            pattern:  ^/api/logout
+            
+            
+        main:
+            stateless: true
+            provider: app_user_provider
+
+    access_control:
+    - { path: ^/api/note_expense, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/api/note_expenses, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/api/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+when@test:
+    security:
+        password_hashers:
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4
+                time_cost: 3
+                memory_cost: 10
