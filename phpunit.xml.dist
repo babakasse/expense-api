@@ -6,6 +6,7 @@
     <ini name="error_reporting" value="-1"/>
     <server name="APP_ENV" value="test" force="true"/>
     <env name="KERNEL_CLASS" value="App\Kernel"/>
+    <env name="JWT_SECRET_KEY" value="password" />
   </php>
   <testsuites>
     <testsuite name="Project Test Suite">

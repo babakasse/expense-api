@@ -14,7 +14,7 @@ security:
             security: false
 
         login:
-            pattern:  ^/api/login
+            pattern: ^/api/login
             stateless: true
             json_login:
                 check_path: /api/login_check
@@ -22,23 +22,21 @@ security:
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
         api:
-            pattern:   ^/api
+            pattern: ^/api
             stateless: true
             jwt: ~
 
         logout:
-            pattern:  ^/api/logout
-            
-            
+            pattern: ^/api/logout
+
         main:
             stateless: true
             provider: app_user_provider
 
     access_control:
-    - { path: ^/api/note_expense, roles: IS_AUTHENTICATED_FULLY }
-    - { path: ^/api/note_expenses, roles: IS_AUTHENTICATED_FULLY }
-    - { path: ^/api/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/note_expense, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/note_expenses, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
 when@test:
     security:
