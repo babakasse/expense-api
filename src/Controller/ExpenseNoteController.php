@@ -13,6 +13,7 @@ use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\CompanyRepository;
 use App\Repository\UserRepository;
+use PHPUnit\Util\Json;
 
 class ExpenseNoteController extends AbstractController
 {
@@ -20,7 +21,7 @@ class ExpenseNoteController extends AbstractController
     public function apiExpenseNote(): JsonResponse
     {
         return $this->json([
-            'message' => 'Welcome to your new controller!',
+            'message' => 'Welcome to Expense Note controller!',
             'path' => 'src/Controller/ExpenseNoteController.php',
         ]);
     }
@@ -40,7 +41,7 @@ class ExpenseNoteController extends AbstractController
         ManagerRegistry $doctrine,
         CompanyRepository $companyRepository,
         UserRepository $userRepository
-    ): Response {
+    ): JsonResponse {
         $data = json_decode($request->getContent(), true);
         
         if (!isset($data['noteDate'], $data['noteType'], $data['amount'], $data['company'], $data['commercial'])) {
@@ -70,7 +71,7 @@ class ExpenseNoteController extends AbstractController
         $entityManager->persist($expenseNote);
         $entityManager->flush();
 
-        return new Response('Expense Note created', Response::HTTP_CREATED);
+        return new JsonResponse('Expense Note created', Response::HTTP_CREATED);
     }
 
     #[Route('/api/expense_note/{id}', name: 'expense_note_show', methods: ['GET'])]
@@ -95,29 +96,29 @@ class ExpenseNoteController extends AbstractController
         CompanyRepository $companyRepository,
         UserRepository $userRepository,
         int $id
-    ): Response {
+    ): JsonResponse {
         $expenseNote = $expenseNoteRepository->find($id);
 
         if (!$expenseNote) {
-            return new Response('Expense Note not found', Response::HTTP_NOT_FOUND);
+            return new JsonResponse('Expense Note not found', JsonResponse::HTTP_NOT_FOUND);
         }
 
         $data = json_decode($request->getContent(), true);
 
-        if (!isset($data['noteDate'], $data['noteType'], $data['amount'])) {
-            return new Response('Missing required data', Response::HTTP_BAD_REQUEST);
+        if (!isset($data['noteDate'], $data['noteType'], $data['amount'], $data['company'], $data['commercial'])) {
+            return new JsonResponse('Missing required data', Response::HTTP_BAD_REQUEST);
         }
 
         // Fetch the actual entities from the database
         $company = $companyRepository->find($data['company']);
-        $commercial = $userRepository->find(intval($data['commercial']));
+        $commercial = $userRepository->find($data['commercial']);
 
         if (!$company) {
-            return new Response('Company not found', Response::HTTP_BAD_REQUEST);
+            return new JsonResponse('Company not found', Response::HTTP_BAD_REQUEST);
         }
 
         if (!$commercial) {
-            return new Response('User not found', Response::HTTP_BAD_REQUEST);
+            return new JsonResponse('User not found', Response::HTTP_BAD_REQUEST);
         }
 
 
@@ -131,7 +132,7 @@ class ExpenseNoteController extends AbstractController
         $entityManager->persist($expenseNote);
         $entityManager->flush();
 
-        return new Response('Expense Note updated', Response::HTTP_OK);
+        return new JsonResponse('Expense Note updated', Response::HTTP_OK);
     }
 
     #[Route('/api/expense_note/{id}', name: 'expense_note_delete', methods: ['DELETE'])]
@@ -139,7 +140,7 @@ class ExpenseNoteController extends AbstractController
         ManagerRegistry $doctrine,
         ExpenseNoteRepository $expenseNoteRepository,
         int $id
-    ): Response {
+    ): JsonResponse {
         $expenseNote = $expenseNoteRepository->find($id);
 
         if (!$expenseNote) {
@@ -150,6 +151,6 @@ class ExpenseNoteController extends AbstractController
         $entityManager->remove($expenseNote);
         $entityManager->flush();
 
-        return new Response('Expense Note deleted', Response::HTTP_OK);
+        return new JsonResponse('Expense Note deleted', Response::HTTP_OK);
     }
 }

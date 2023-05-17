@@ -21,7 +21,7 @@ class UserController extends AbstractController
     public function apiUser(): JsonResponse
     {
         return $this->json([
-            'message' => 'Welcome to your new controller!',
+            'message' => 'Welcome to User controller!',
             'path' => 'src/Controller/UserController.php',
         ]);
     }

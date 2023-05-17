@@ -13,11 +13,11 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class CompanyController extends AbstractController
 {
-    #[Route('/company', name: 'app_company')]
+    #[Route('/api/app_company', name: 'app_api_company')]
     public function index(): JsonResponse
     {
         return $this->json([
-            'message' => 'Welcome to your new controller!',
+            'message' => 'Welcome to Company controller!',
             'path' => 'src/Controller/CompanyController.php',
         ]);
     }
@@ -71,5 +71,15 @@ class CompanyController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse('Company updated', Response::HTTP_OK);
+    }
+
+    #[Route('/api/company/{id}', name: 'company_delete', methods: ['DELETE'])]
+    public function deleteCompany(Company $company, ManagerRegistry $doctrine): JsonResponse
+    {
+        $entityManager = $doctrine->getManager();
+        $entityManager->remove($company);
+        $entityManager->flush();
+
+        return new JsonResponse('Company deleted', Response::HTTP_OK);
     }
 }

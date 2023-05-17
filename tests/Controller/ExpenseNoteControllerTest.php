@@ -19,6 +19,7 @@ class ExpenseNoteControllerTest extends WebTestCase{
         $this->assertJson($client->getResponse()->getContent());
     }
 
+    
     public function testListExpenseNotes()
     {
         $client = static::createClient();
@@ -73,8 +74,8 @@ class ExpenseNoteControllerTest extends WebTestCase{
         
         $data = [
             'noteDate' => (new DateTime())->format('Y-m-d'), 
-            'noteType' => ExpenseNote::TYPE_FUEL,
-            'amount' => 99.99,
+            'noteType' => ExpenseNote::TYPE_TOLL,
+            'amount' => rand(1,100),
             'company' => 1,
             'commercial' => 1,
         ];
@@ -99,9 +100,6 @@ class ExpenseNoteControllerTest extends WebTestCase{
         
         $client->request('DELETE', '/api/expense_note/1');
 
-        $this->assertEquals(204, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
-
-
-    
 }

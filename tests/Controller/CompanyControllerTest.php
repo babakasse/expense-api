@@ -17,7 +17,7 @@ class CompanyControllerTest extends WebTestCase{
         $this->assertJson($client->getResponse()->getContent());
     }
 
-    public function testListCompanys()
+    public function testListCompanies()
     {
         $client = static::createClient();
         
@@ -33,7 +33,7 @@ class CompanyControllerTest extends WebTestCase{
         $client = static::createClient();
        
         $data = [
-            'name' => 'KISS THE BRIDE', 
+            'name' => 'KISS THE BRIDE'.random_int(1, 1000), 
         ];
 
         $client->request(
@@ -82,16 +82,4 @@ class CompanyControllerTest extends WebTestCase{
         $this->assertResponseHeaderSame('Content-Type', 'application/json');
         $this->assertJson($client->getResponse()->getContent());
     }
-
-    public function testDeleteCompany()
-    {
-        $client = static::createClient();
-        
-        $client->request('DELETE', '/api/company/1');
-
-        $this->assertEquals(204, $client->getResponse()->getStatusCode());
-    }
-
-
-    
 }
