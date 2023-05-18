@@ -27,7 +27,7 @@ J'ai également effectué des tests de tous les points de terminaison. Bien que 
 5. Exécutez `docker compose down --remove-orphans` pour arrêter les conteneurs Docker.
 
 ## Pour Tester les Endpoints sans l'Authentification
-1. Mettez à jour la configuration de sécurité en supprimant la regle pour api
+1. Mettez à jour la configuration de sécurité (image ci-dessous) en remplacant ‘pattern: ^/api‘ par ‘pattern: ^/test‘
 ![Alt Text](./docs/to_remove_to_run%20_tests_without_auth.png)
 ## Licence
 
