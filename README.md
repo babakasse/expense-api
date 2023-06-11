@@ -1,6 +1,6 @@
 # Symfony Docker pour l'API de gestion de notes de frais
 
-Ceci est une application basée sur le framework Symfony 6.2, en utilisant Docker pour faciliter le déploiement. J'ai réalisé le projet en suivant les spécifications du test technique, y compris toutes les tâches bonus (Authentification et tous les tests de points de terminaison).
+Ceci est une application basée sur le framework Symfony 6.2, en utilisant Docker pour faciliter le déploiement.
 
 ![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
 
