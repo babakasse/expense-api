@@ -36,4 +36,3 @@ Symfony Docker est disponible sous la licence MIT.
 ## Crédits
 
 Créé par [Kévin Dunglas](https://dunglas.fr), co-maintenu par [Maxime Helias](https://twitter.com/maxhelias) et sponsorisé par [Les-Tilleuls.coop](https://les-tilleuls.coop).
-
