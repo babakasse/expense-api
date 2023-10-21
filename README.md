@@ -8,7 +8,7 @@ Ceci est une application basée sur le framework Symfony 6.2, en utilisant Docke
 
 L'application a été développée en utilisant PHP 8.2 et PostgreSQL pour la gestion de la base de données. Pour l'authentification, j'ai utilisé le bundle LexikJWTAuthenticationBundle. Bien que l'implémentation complète de JWT pour les tests n'ait pas pu être réalisée, l'authentification fonctionne comme prévu.
 
-J'ai également effectué des tests de tous les points de terminaison. Bien que l'implémentation actuelle soit pleinement fonctionnelle, des améliorations sont possibles. Par exemple, l'utilisation de types de formulaires pourrait alléger les contrôleurs et OpenAPI pourrait être utilisé pour la documentation de l'API. Des améliorations seront apportées en temps voulu.
+J'ai également effectué des tests de tous les endpoints (GET, PUT, POST, DELETE) . Bien que l'implémentation actuelle soit pleinement fonctionnelle, des améliorations sont possibles. Par exemple, l'utilisation de FormType pourrait alléger les contrôleurs et OpenAPI pourrait être utilisé pour la documentation de l'API. Des améliorations seront apportées en temps voulu.
 
 ## Caractéristiques
 
@@ -36,4 +36,3 @@ Symfony Docker est disponible sous la licence MIT.
 ## Crédits
 
 Créé par [Kévin Dunglas](https://dunglas.fr), co-maintenu par [Maxime Helias](https://twitter.com/maxhelias) et sponsorisé par [Les-Tilleuls.coop](https://les-tilleuls.coop).
-
