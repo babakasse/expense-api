@@ -26,9 +26,6 @@ J'ai également effectué des tests de tous les endpoints (GET, PUT, POST, DELET
 4. Ouvrez `https://localhost` dans votre navigateur web préféré et [acceptez le certificat TLS auto-généré](https://stackoverflow.com/a/15076602/1352334)
 5. Exécutez `docker compose down --remove-orphans` pour arrêter les conteneurs Docker.
 
-## Pour Tester les Endpoints sans l'Authentification
-1. Mettez à jour la configuration de sécurité en supprimant la regle pour api
-![Alt Text](./docs/to_remove_to_run%20_tests_without_auth.png)
 ## Licence
 
 Symfony Docker est disponible sous la licence MIT.
